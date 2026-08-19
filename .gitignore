@@ -1,0 +1,108 @@
+node_modules
+# =========================
+# Node / Next.js
+# =========================
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# Next.js cache
+.next/cache/
+
+# =========================
+# Environment variables
+# =========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep example env file
+!.env.example
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Python tools
+# =========================
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+.idea/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# =========================
+# Uploaded / Generated data
+# =========================
+uploads/
+temp/
+tmp/
+output/
+outputs/
+
+# Excel files generated during testing
+*.xlsx
+*.xls
+*.csv
+
+# Keep sample files if needed
+!sample_data/
+!sample_data/*.xlsx
+!sample_data/*.csv
+
+# =========================
+# Python build files
+# =========================
+*.egg-info/
+.eggs/
+wheels/
+
+# =========================
+# Local database
+# =========================
+*.db
+*.sqlite
+*.sqlite3
