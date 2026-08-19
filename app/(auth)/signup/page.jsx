@@ -6,7 +6,7 @@ import Link from 'next/link'
 import AuthCard from '@/components/auth/auth'
 import { Turnstile } from '@marsidev/react-turnstile'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000"
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://instabackend-m7wv.onrender.com"
 
 export default function SignupPage() {
   const router = useRouter()
