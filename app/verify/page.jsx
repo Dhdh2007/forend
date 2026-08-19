@@ -1,12 +1,11 @@
-
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import AuthCard from '@/components/auth/auth'
 
-export default function VerifyPendingPage() {
+function VerifyPendingContent() {
   const params = useSearchParams()
   const email = params.get('email')
   const glowRef = useRef(null)
@@ -45,5 +44,13 @@ export default function VerifyPendingPage() {
         </p>
       </div>
     </AuthCard>
+  )
+}
+
+export default function VerifyPendingPage() {
+  return (
+    <Suspense fallback={null}>
+      <VerifyPendingContent />
+    </Suspense>
   )
 }
