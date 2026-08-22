@@ -61,7 +61,7 @@ import {
 } from "recharts";
 import { createClient } from "@/lib/supabaseClient";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "https://instabackend-m7wv.onrender.com/api";
 const supabase = createClient();
 /* ============================================================
    HELPERS

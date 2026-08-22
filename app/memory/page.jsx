@@ -29,7 +29,7 @@ import {
 // component because it's not a hook, just a plain object.
 const supabase = createClient();
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "https://instabackend-m7wv.onrender.com/api";
 
 /* Category lanterns — each maps a Memory Box field group to an icon + label */
 const CATEGORIES = [
@@ -528,7 +528,7 @@ export default function MoonlitMemoryBox() {
           )}
           {error && (
             <p className="text-sm text-rose-300/80">
-              {error} — the UI expects the backend running at {API_BASE}.
+              {error} — Plz login with insta or Server error.
             </p>
           )}
 
