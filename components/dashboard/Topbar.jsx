@@ -15,6 +15,8 @@ const FALLBACK_GREETINGS = {
   night: ["Working late? Here's the latest activity."],
 };
 
+const REFRESH_INTERVAL_MS = 30 * 1000; // 1 minute
+
 function getTimeBucket(hour) {
   if (hour >= 5 && hour < 12) return "morning";
   if (hour >= 12 && hour < 17) return "afternoon";
@@ -22,12 +24,9 @@ function getTimeBucket(hour) {
   return "night";
 }
 
-function todayKey() {
-  return `motivation-quote-${new Date().toISOString().slice(0, 10)}`;
-}
-
 export default function Topbar({ onNewCampaign }) {
   const [greeting, setGreeting] = useState("Overview");
+
   useEffect(() => {
     const bucket = getTimeBucket(new Date().getHours());
     const options = FALLBACK_GREETINGS[bucket];
@@ -35,24 +34,33 @@ export default function Topbar({ onNewCampaign }) {
 
     let cancelled = false;
 
-    (async () => {
+    async function fetchQuote() {
       const { data: { session } } = await supabase.auth.getSession();
       const token = session?.access_token;
       if (!token) return;
 
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/mp`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (cancelled || !data?.quote) return;
-          setGreeting(data.quote);
-        })
-        .catch(() => {});
-    })();
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/mp`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (!cancelled && data?.quote) setGreeting(data.quote);
+      } catch {
+        // keep whatever greeting is already showing
+      }
+    }
 
-    return () => { cancelled = true; };
+    fetchQuote(); // first load
+    const intervalId = setInterval(fetchQuote, REFRESH_INTERVAL_MS);
+
+    return () => {
+      cancelled = true;
+      clearInterval(intervalId);
+    };
   }, []);
+
+  // ... rest of your component (onNewCampaign button etc.) stays the same
+
   return (
     <div className="flex items-center justify-between border-b border-base-border px-6 py-5 lg:px-10">
       <div>
