@@ -14,6 +14,7 @@ export default function SignupPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileReady, setTurnstileReady] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -88,19 +89,52 @@ export default function SignupPage() {
 
         <Turnstile
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-          onSuccess={(token) => { setTurnstileToken(token); setError('') }}
-          onExpire={() => setTurnstileToken('')}
+          onSuccess={(token) => { setTurnstileToken(token); setTurnstileReady(true); setError('') }}
+          onExpire={() => { setTurnstileToken(''); setTurnstileReady(false) }}
+          onError={() => {
+            setTurnstileReady(false)
+            setError('Security check failed to load. Please refresh and try again.')
+          }}
         />
+
+        <p className="text-[11px] text-[#8890A6] text-center leading-relaxed">
+          This site is protected by Cloudflare and the Cloudflare{' '}
+          <a
+            href="https://www.cloudflare.com/privacypolicy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#7C5CFC] hover:underline"
+          >
+            Privacy Policy
+          </a>{' '}
+          and{' '}
+          <a
+            href="https://www.cloudflare.com/en-gb/turnstile-privacy-policy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#7C5CFC] hover:underline"
+          >
+            Terms of Service
+          </a>{' '}
+          apply.
+        </p>
 
         {error && <p className="text-sm text-red-400">{error}</p>}
 
         <button
           type="submit"
-          disabled={loading || !turnstileToken}
+          disabled={loading || !turnstileReady}
           className="w-full bg-[#7C5CFC] hover:bg-[#6A4CE0] transition-colors rounded-lg py-2.5 text-sm font-medium disabled:opacity-50"
         >
-          {loading ? 'Creating account…' : 'Create account'}
+          {loading ? 'Creating account…' : turnstileReady ? 'Create account' : 'Verifying…'}
         </button>
+
+        <p className="text-[11px] text-[#8890A6] text-center leading-relaxed">
+          By signing up, you agree to our{' '}
+          <Link href="/terms" className="text-[#7C5CFC] hover:underline">Terms of Service</Link>,{' '}
+          <Link href="/privacy" className="text-[#7C5CFC] hover:underline">Privacy Policy</Link>, and{' '}
+          <Link href="/data-deletion" className="text-[#7C5CFC] hover:underline">Data Deletion Policy</Link>.
+        </p>
       </form>
     </AuthCard>
   )
