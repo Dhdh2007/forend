@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "https://backend-7z7b.onrender.com";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 /**
  * Fires a fire-and-forget GET /health on mount. This does NOT prevent the
